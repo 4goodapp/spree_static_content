@@ -6,7 +6,7 @@ module Spree
     layout :determine_layout
 
     def show
-      @page = Spree::Page.find_by!(slug: request.path)
+      @page = @static_content = Spree::Page.find_by!(slug: request.path)
     end
 
     private

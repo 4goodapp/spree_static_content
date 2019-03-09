@@ -1,0 +1,11 @@
+
+<div class="wrapper">
+  <div class="col-12">
+    <h1><%= @page.title %></h1>
+    <p class="small-text">Posted by <strong><%= @page.author %></strong> on <time datetime="<%= @page.published_on.strftime("%d %b %Y ") %>"><%= @page.published_on.strftime("%d %b %Y ") %></time></p>
+
+    <div id="page_content">
+      <%= raw @page.body %>
+    </div>
+  </div>
+</div>

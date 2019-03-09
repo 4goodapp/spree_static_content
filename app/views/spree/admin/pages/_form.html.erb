@@ -4,7 +4,9 @@
 
 <%= form_for [:admin, resource] do |f| %>
   <div class="row" data-hook="admin_page_form_fields">
-    <div class="col-md-6" data-hook="admin_page_form_left">
+
+    <div class="col-md-8" data-hook="admin_page_form_left">
+
       <div class="form-group">
         <%= f.label :title %> <span class="required">*</span>
         <%= f.text_field :title, class: 'form-control' %>
@@ -12,34 +14,81 @@
       </div>
 
       <div class="form-group">
-        <%= f.label :slug %> <span class="required">*</span>
-        <%= f.text_field :slug, class: 'form-control' %>
-        <%= f.error_message_on :slug %>
+        <%= f.label :author %>
+        <%= f.text_field :author, class: 'form-control' %>
+        <%= f.error_message_on :author %>
+      </div>
+
+      <div class="row form-group">
+        <div class="col-md-6">
+        <%= f.field_container :published_on, class: ['form-group'] do %>
+          <%= f.label :published_on, Spree.t(:published_on) %>
+          <%= f.text_field :published_on, value: datepicker_field_value(@page.published_on), class: 'datepicker form-control' %>
+        <% end %>
+        </div>
+        <div class="col-md-6" style="padding-top:24px;">
+          <%= f.label :visible do %>
+            <%= f.check_box :visible %>
+            <%= Spree::Page.human_attribute_name(:visible) %>
+          <% end %>
+        </div>
       </div>
 
       <div class="form-group">
         <%= f.label :body %> <span class="required">*</span>
-        <%= f.text_area :body, rows: 12, class: 'form-control' %>
+        <%= f.text_area :body, rows: 20, class: 'form-control', id: 'code' %>
         <%= f.error_message_on :body %>
       </div>
-    </div>
 
-    <div class="col-md-6" data-hook="admin_page_form_right">
+    <div class="well" data-hook="admin_page_form_meta">
       <div class="form-group">
-        <%= f.label :layout %>
-        <%= f.text_field :layout, class: 'form-control' %>
+        <%= f.label :meta_title %>
+        <%= f.text_field :meta_title, class: 'form-control' %>
+        <%= f.error_message_on :meta_title %>
       </div>
 
+      <div class="form-group">
+        <%= f.label :meta_keywords %>
+        <%= f.text_field :meta_keywords, class: 'form-control' %>
+        <%= f.error_message_on :meta_keywords %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :meta_description %>
+        <%= f.text_area :meta_description, rows: 4, class: 'form-control' %>
+        <%= f.error_message_on :meta_description %>
+      </div>
+    </div>
+  </div>
+
+    <div class="col-md-4" data-hook="admin_page_form_right">
+      <div class="well">
+        <div class="form-group">
+          <%= f.label :layout %>
+          <%= f.text_field :layout, class: 'form-control' %>
+        </div>
+        <div class="checkbox">
+          <%= f.label :render_layout_as_partial do %>
+            <%= f.check_box :render_layout_as_partial %>
+            <%= Spree::Page.human_attribute_name(:render_layout_as_partial) %>
+          <% end %>
+        </div>
+      </div>
+      <div class="well">
+      <div class="form-group">
+        <%= f.label :slug %> <span class="required">*</span>
+        <%= f.text_field :slug, class: 'form-control' %>
+        <%= f.error_message_on :slug %>
+      </div>
+      <div class="text-center">- <%= Spree.t(:or) %> -</div>
       <div class="form-group">
         <%= f.label :foreign_link %>
         <%= f.text_field :foreign_link, class: 'form-control' %>
       </div>
-
-      <div class="form-group">
-        <%= f.label :position %>
-        <%= f.number_field :position, min: 0, class: 'form-control' %>
       </div>
-
+<div class="well">
+  <div class="form-group">
+      <%= f.label :Menu %>
       <div class="checkbox">
         <%= f.label :show_in_sidebar do %>
           <%= f.check_box :show_in_sidebar %>
@@ -55,26 +104,26 @@
       </div>
 
       <div class="checkbox">
+        <%= f.label :show_in_sub_menu_one do %>
+          <%= f.check_box :show_in_sub_menu_one%>
+          <%= Spree::Page.human_attribute_name(:show_in_sub_menu_one) %>
+        <% end %>
+      </div>
+
+      <div class="checkbox">
         <%= f.label :show_in_footer do %>
           <%= f.check_box :show_in_footer %>
           <%= Spree::Page.human_attribute_name(:show_in_footer) %>
         <% end %>
       </div>
 
-      <div class="checkbox">
-        <%= f.label :visible do %>
-          <%= f.check_box :visible %>
-          <%= Spree::Page.human_attribute_name(:visible) %>
-        <% end %>
+      <div class="form-group">
+        <%= f.label :position %>
+        <%= f.number_field :position, min: 0, class: 'form-control' %>
       </div>
-
-      <div class="checkbox">
-        <%= f.label :render_layout_as_partial do %>
-          <%= f.check_box :render_layout_as_partial %>
-          <%= Spree::Page.human_attribute_name(:render_layout_as_partial) %>
-        <% end %>
-      </div>
-
+    </div>
+</div>
+<div class="well">
       <div class="form-group">
         <%= f.label :stores, plural_resource_name(Spree::Store) %>
         <% Spree::Store.all.each do |store| %>
@@ -87,27 +136,6 @@
         <% end %>
       </div>
     </div>
-  </div>
-
-  <div class="row" data-hook="admin_page_form_meta">
-    <div class="col-md-12">
-      <div class="form-group">
-        <%= f.label :meta_title %>
-        <%= f.text_field :meta_title, class: 'form-control' %>
-        <%= f.error_message_on :meta_title %>
-      </div>
-
-      <div class="form-group">
-        <%= f.label :meta_keywords %>
-        <%= f.text_field :meta_keywords, class: 'form-control' %>
-        <%= f.error_message_on :meta_keywords %>
-      </div>
-
-      <div class="form-group">
-        <%= f.label :meta_description %>
-        <%= f.text_field :meta_description, class: 'form-control' %>
-        <%= f.error_message_on :meta_description %>
-      </div>
     </div>
   </div>
 

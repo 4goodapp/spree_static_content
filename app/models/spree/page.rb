@@ -1,4 +1,4 @@
-class Spree::Page < ActiveRecord::Base
+class Spree::Page < Spree::Base
   default_scope { order(position: :asc) }
 
   has_and_belongs_to_many :stores, join_table: 'spree_pages_stores'
@@ -13,6 +13,7 @@ class Spree::Page < ActiveRecord::Base
   scope :header_links, -> { where(show_in_header: true).visible }
   scope :footer_links, -> { where(show_in_footer: true).visible }
   scope :sidebar_links, -> { where(show_in_sidebar: true).visible }
+  scope :sub_menu_one_links, -> { where(show_in_sub_menu_one: true).visible }
 
   scope :by_store, ->(store) { joins(:stores).where('spree_pages_stores.store_id = ?', store) }
 
