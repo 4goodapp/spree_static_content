@@ -24,5 +24,14 @@ module Spree
       !self.finder_scope.find_by(slug: [path, "/#{path}"]).nil?
       
     end
+        
+    protected
+    
+    def self.finder_scope
+      scope = Spree::Page.visible
+      scope = scope.joins(:translations) if defined?(SpreeGlobalize)
+      scope
+    end
+    
   end
 end
