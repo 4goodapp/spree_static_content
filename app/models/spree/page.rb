@@ -33,7 +33,7 @@ class Spree::Page < Spree::Base
 
   def update_positions_and_slug
   #  # Ensure that all slugs start with a slash.
-  3  slug.prepend('/') if not_using_foreign_link? && !slug.start_with?('/')
+  #  slug.prepend('/') if not_using_foreign_link? && !slug.start_with?('/')
     return if new_record?
     return unless (prev_position = Spree::Page.find(id).position)
     if prev_position > position
